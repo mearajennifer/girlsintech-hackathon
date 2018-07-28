@@ -1,2 +1,4 @@
 env/
 *pycache*
+secret*
+send_sms_sample.py
