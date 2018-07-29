@@ -37,10 +37,10 @@ class Volunteer(db.Model):
 
 
     def retrieve_organizations_volunteer_is_in(self):
-        organization_ids = OrganizationVolunteer.query.filter_by(volunteer_id=self.volunteer_id)
+        # organizations = db.session.query(Organization).join(OrganizationVolunteer).join(Volunteer).filter(Organization.organization_id == OrganizationVolunteer.organization_id && OrganizationVolunteer.volunteer_id == self.volunteer_id).all()
+        # return organizations
 
-        organizations = db.session.query(Organization).join(OrganizationVolunteer).filter(Organization.organization_id == OrganizationVolunteer.organization_id).all()
-        return organization
+        return Organization.query.join(OrganizationVolunteer).join(Volunteer).filter(OrganizationVolunteer.volunteer_id == self.volunteer_id).all()
 
 
 ##############################################################################
@@ -197,19 +197,31 @@ def create_dummy_organization():
                            description="Dedicated to helping out our peeps",
                            )
 
-    db.session.add(hackoak)
+    brightland = Organization(name="BrightLand",
+                           email="brightland@brightland.com",
+                           password=environ['bright_pass'],
+                           address="221 Main St, San Francisco, CA",
+                           category_code=1,
+                           description="Dedicated to helping out our friends",
+                           )
+
+    db.session.add_all([hackoak, brightland])
     db.session.commit()
 
     return hackoak
 
 def create_dummy_orgvol(volunteers, organization):
     organization_volunteers = []
+
     for volunteer in volunteers:
         organization_volunteer = OrganizationVolunteer(volunteer_id=volunteer.volunteer_id,
                                                        organization_id=organization.organization_id)
         organization_volunteers.append(organization_volunteer)
 
+    organization_volunteers.append(OrganizationVolunteer(volunteer_id=1, organization_id=2))
+
     db.session.add_all(organization_volunteers)
+
     db.session.commit()
 
     return organization_volunteers
