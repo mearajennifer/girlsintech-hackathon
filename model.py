@@ -37,8 +37,7 @@ class Volunteer(db.Model):
 
 
     def retrieve_organizations_volunteer_is_in(self):
-        # organizations = db.session.query(Organization).join(OrganizationVolunteer).join(Volunteer).filter(Organization.organization_id == OrganizationVolunteer.organization_id && OrganizationVolunteer.volunteer_id == self.volunteer_id).all()
-        # return organizations
+        """"""
 
         return Organization.query.join(OrganizationVolunteer).join(Volunteer).filter(OrganizationVolunteer.volunteer_id == self.volunteer_id).all()
 
@@ -68,6 +67,12 @@ class Organization(db.Model):
         """Provide helpful representation when printed."""
 
         return "<Organization name={}, category_code={}>".format(self.name, self.category_code)
+
+    def retrieve_volunteers(self):
+        """"""
+        return Volunteer.query.join(OrganizationVolunteer).join(Organization).filter(OrganizationVolunteer.organization_id == self.organization_id).all()
+
+
 
 
 ##############################################################################
@@ -107,6 +112,7 @@ class OrganizationVolunteer(db.Model):
 
         return "<OrganizationVolunteer volunteer_id={}, organization_id={}>".format(self.volunteer_id,
                                                                                     self.organization_id)
+
 
 # class Movie(db.Model):
 #     """Movie of ratings website."""
@@ -187,7 +193,7 @@ def create_dummy_category():
 
 
 
-def create_dummy_organization():
+def create_dummy_organizations():
     """"""
     hackoak = Organization(name="HackOak",
                            email="hackoak@hackoak.com",
@@ -259,10 +265,12 @@ if __name__ == "__main__":
     db.create_all()
     dummies = create_dummy_volunteers()
     category = create_dummy_category()
-    organization = create_dummy_organization()
-    volunteerList = create_dummy_orgvol(dummies, organization)
+    organizations = create_dummy_organizations()
+    volunteerList = create_dummy_orgvol(dummies, organizations)
     for volunteer in dummies:
         print(volunteer.retrieve_organizations_volunteer_is_in())
+    for organization in organizations:
+        print(organization.retrieve_volunteers())
 
 
     print("Connected to DB.")
