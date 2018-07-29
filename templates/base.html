@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Helper</title>
-    <link rel="stylesheet" href="/static/styles.css"/>
+    <link rel="stylesheet" href="/static/main_styles.css"/>
     <link href=“https://fonts.googleapis.com/css?family=Nunito” rel=“stylesheet”>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
     </script>
@@ -14,7 +14,7 @@
         <li>{{ message }}</li>
          {% endfor %}
     </ul>
-
+<!-- 
     <div id="nav"><center>
         {% if session.get('user_id') %}
         <a href="/logout">Log Out</a>
@@ -22,7 +22,7 @@
         <a href="/login">Log In |</a>
         <a href="/register">Register</a>
         {% endif %}
-    </center></div>
+    </center></div> -->
 
     {% block content %}
         put your content here

@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h2>Create Alert</h2>
 
-<form action="/create-alert" method="post">
+<form class="alert_form" action="/create-alert" method="post">
+    <h2 class="vtitle">Create Alert</h2>
     <p>How Many Volunteers Do You Need?: <input type="number" name="num_volunteers" id="num_volunteers"></p>
 	<p>When Do You Need the Volunteers?:
         <select name="hours">

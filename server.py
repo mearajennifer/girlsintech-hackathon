@@ -269,15 +269,15 @@ def sms_reply_attending_():
 
 if __name__ == '__main__':
     # Activate debug mode
-    app.debug = True
+    # app.debug = True
 
     # make sure templates, etc. are not cached in debug mode
-    app.jinja_env.auto_reload = app.debug
+    # app.jinja_env.auto_reload = app.debug
 
     connect_to_db(app)
 
     # Use the DebugToolbar
-    DebugToolbarExtension(app)
+    # DebugToolbarExtension(app)
 
     app.run(port=5000, host='0.0.0.0')
 

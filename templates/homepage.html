@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h2>Homepage</h2>
+<!-- <h2 class="homepage_title">Homepage</h2> -->
 
 {% if session['type'] == 'organization' %}
-    <h3>{{ organization.name }}</h3>
+    <h3 class="home_name">{{ organization.name }}</h3>
 
-    <h3>Your Volunteers</h3>
+    <h3 class="vtitle" >Your Volunteers</h3>
+    <div class="volunteer_container">
         <ul>
         {% for volunteer in volunteers %}
             <li>
@@ -15,7 +16,12 @@
             </li>
         {% endfor %}
         </ul>
-    <h3><a href="/create-alert">Create Alert</a></h3>
+        </div>
+        <a href="/create-alert">
+        <div class="alert_button">
+    <h3>Create Alert</h3>
+    <p>+</p>
+</div></a>
 {% else %}
     <h3>{{ volunteer.name }}</h3>
 
