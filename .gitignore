@@ -1,11 +1,6 @@
 env/
 *pycache*
-<<<<<<< HEAD
 .idea/
 .DS_Store
 secrets.sh
-
-=======
-secret*
 send_sms_sample.py
->>>>>>> 918a7e58188a670fa19e0b231d2f5e00624c67f6
