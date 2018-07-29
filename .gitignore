@@ -4,3 +4,4 @@ env/
 .DS_Store
 secrets.sh
 send_sms_sample.py
+ngrok*
