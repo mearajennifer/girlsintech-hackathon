@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>Homepage</h2>
+
+    <!--""" Show user / org details """-->
+{% if session['type'] == 'organization' %}
+    <h3>{{ organization.name }}</h3>
+
+    <h3>Your Volunteers</h3>
+        <ul>
+        {% for volunteer in volunteers %}
+            <li>
+                <p>Name: {{volunteer.name}}</p>
+                <p>Phone: {{volunteer.phone_number}}</p>
+            </li>
+        {% endfor %}
+        </ul>
+{% else %}
+    <h3>{{ volunteer.name }}</h3>
+
+    <h3>Your Organizations</h3>
+        <ul>
+        {% for organization in organizations %}
+            <li>
+                <p>Name: {{organization.name}}</p>
+            </li>
+        {% endfor %}
+        </ul>
+{% endif %}
+
+
+{% endblock %}

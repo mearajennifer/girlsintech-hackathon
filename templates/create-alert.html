@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>Create Alert</h2>
+
+<form action="/create-alert" method="post">
+    <p>How Many Volunteers Do You Need?: <input type="number" name="num_volunteers" id="num_volunteers"></p>
+	<p>When Do You Need the Volunteers?:
+        <select name="hours">
+            {% for i in range(1, 13) %}
+                <option value="{{i}}">{{i}}</option>
+            {% endfor %}
+        </select>
+        <input type="radio" name="ampm" value="am">AM
+        <input type="radio" name="ampm" value="pm">PM
+    </p>
+    <p>What Day Do You Need the Volunteers:
+        <select name="day">
+            <option value="today">Today</option>
+            <option value="tomorrow">Tomorrow</option>
+        </select>
+    </p>
+	<p><input type ="submit" name="submit" value="Create Alert"></p>
+</form>
+
+{% endblock %}

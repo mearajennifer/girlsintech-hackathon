@@ -27,9 +27,6 @@ class Volunteer(db.Model):
     password = db.Column(db.String(64), nullable=False)
     phone_number = db.Column(db.String(20), nullable=False)
 
-    # organizations = db.relationship("OrganizationVolunteer", backref=db.backref("organization_volunteers",
-    #                                                                             order_by=volunteer_id))
-
     def __repr__(self):
         """Provide helpful representation when printed."""
 
@@ -39,7 +36,8 @@ class Volunteer(db.Model):
     def retrieve_organizations_volunteer_is_in(self):
         """"""
 
-        return Organization.query.join(OrganizationVolunteer).join(Volunteer).filter(OrganizationVolunteer.volunteer_id == self.volunteer_id).all()
+        return Organization.query.join(OrganizationVolunteer).join(Volunteer).filter(
+            OrganizationVolunteer.volunteer_id == self.volunteer_id).all()
 
 
 ##############################################################################
@@ -70,9 +68,8 @@ class Organization(db.Model):
 
     def retrieve_volunteers(self):
         """"""
-        return Volunteer.query.join(OrganizationVolunteer).join(Organization).filter(OrganizationVolunteer.organization_id == self.organization_id).all()
-
-
+        return Volunteer.query.join(OrganizationVolunteer).join(Organization).filter(
+            OrganizationVolunteer.organization_id == self.organization_id).all()
 
 
 ##############################################################################
@@ -112,6 +109,9 @@ class OrganizationVolunteer(db.Model):
 
         return "<OrganizationVolunteer volunteer_id={}, organization_id={}>".format(self.volunteer_id,
                                                                                     self.organization_id)
+
+    def remove_organization_volunteer(self):
+        db.session.delete(self)
 
 
 ##############################################################################

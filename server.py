@@ -69,7 +69,7 @@ def show_volunteer_login():
 
 @app.route('/login/volunteer', methods=['POST'])
 def verify_volunteer_login():
-    """Verifies volunteeremail is in database and password matches"""
+    """Verifies volunteer's email is in database and password matches"""
 
     # gets email and password from form and verifies user in db
     email = request.form.get('email')
@@ -87,7 +87,7 @@ def verify_volunteer_login():
         return redirect('/login/volunteer')
 
     # add user_id to session
-    session['user_id'] = user.user_id
+    session['user_id'] = volunteer.volunteer_id
     session['type'] = 'volunteer'
 
     # redirect to home page
@@ -179,22 +179,26 @@ def process_alert():
         return redirect('/home')
     else:
         # find organization and grab all people interested in it
-        org_id = session['organization_id']
+        org_id = session['user_id']
         org = Organization.query.filter(Organization.organization_id == org_id).first()
-        org_vols = OrganizationVolunteer.query.filter(OrganizationVolunteer.organization_id == org_id).options(db.joinedload('volunteers')).all()
-
+        volunteers = org.retrieve_volunteers()
         phone_numbers = []
 
-        for item in org_vols:
-            vol_phone_numbers.append(item.volunteers.phone_number)
+        for volunteer in volunteers:
+            phone_numbers.append(volunteer.phone_number)
 
         num_volunteers = request.form.get('num_volunteers')
         day = request.form.get('day')
         hours = request.form.get('hours')
+        ampm = request.form.get('ampm')
+        time = hours + " " + ampm
 
-        message = f"Helper request: {org.name} needs {num_volunteers} {day} at {hours}. Can you help? Reply YES."
+        message = "Helper request: {} needs {} {} at {}. Can you help? Reply YES.".format(org.name,
+                                                                                          num_volunteers,
+                                                                                          day,
+                                                                                          time)
 
-        return render_template('/review-alert.html', org=org, message=message, phone_numbers)
+        return render_template('/review-alert.html', org=org, message=message, phone_numbers=phone_numbers)
         # on this template users review the alert
         # if they like it, it connects to the twilio '/sms' route below
         # need to figure out how to pass in the phone numbers on that route...
@@ -207,11 +211,15 @@ def show_homepage():
     """ Show user / org details """
 
     if session['type'] == 'volunteer':
-        # show user details and earned badges
+        volunteer = Volunteer.query.get(session['user_id'])
+        organizations = volunteer.retrieve_organizations_volunteer_is_in()
+
         pass
     elif session['type'] == 'organization':
         # show organization details, any current alerts, link to create an alert
-        pass
+        organization = Organization.query.get(session['user_id'])
+        volunteers = organization.retrieve_volunteers()
+        return render_template('homepage.html', organization=organization, volunteers=volunteers)
     else:
         return redirect('/landing')
 
@@ -229,26 +237,18 @@ def logout():
 
 #################### TWILIO SMS ROUTES ####################
 @app.route("/sms")
-def sms_volunteer_request():
+def sms_volunteer_request(phone_numbers, message):
     """Connects organizations on our app to the Twilio functionality."""
 
     if session['type'] != 'organization':
         return redirect('/home')
-    else:
-        numbers = request.form.get('numbers')
-        message = request.form.get('message')
 
-        for num in numbers:
-            call = client.messages.create(
-                to=num,
-                from_='+15109441564',
-                body=message,
-            )
-
+    for num in phone_numbers:
+        call = client.messages.create(to=num, from_='+15109441564', body=message,)
         print(call.sid)
 
-        flash("Your request for volunteers was sent!")
-        return redirect("/home")
+    flash("Your request for volunteers was sent!")
+    return redirect("/home")
 
 
 @app.route("/sms", methods=['GET', 'POST'])
