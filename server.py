@@ -193,12 +193,14 @@ def process_alert():
         ampm = request.form.get('ampm')
         time = hours + " " + ampm
 
-        message = "Helper request: {} needs {} {} at {}. Can you help? Reply YES.".format(org.name,
+        message = "Helper request: {} needs {} volunteers {} at {}. Can you help? Reply YES.".format(org.name,
                                                                                           num_volunteers,
                                                                                           day,
                                                                                           time)
 
-        return render_template('/review-alert.html', org=org, message=message, phone_numbers=phone_numbers)
+        sms_volunteer_request(phone_numbers, message)
+        # return render_template('/sms', message=message, phone_numbers=phone_numbers)
+        return redirect('/home')
         # on this template users review the alert
         # if they like it, it connects to the twilio '/sms' route below
         # need to figure out how to pass in the phone numbers on that route...
@@ -236,7 +238,7 @@ def logout():
 
 
 #################### TWILIO SMS ROUTES ####################
-@app.route("/sms")
+# @app.route("/sms")
 def sms_volunteer_request(phone_numbers, message):
     """Connects organizations on our app to the Twilio functionality."""
 
@@ -248,7 +250,7 @@ def sms_volunteer_request(phone_numbers, message):
         print(call.sid)
 
     flash("Your request for volunteers was sent!")
-    return redirect("/home")
+    # return redirect("/home")
 
 
 @app.route("/sms", methods=['GET', 'POST'])

@@ -1,0 +1,186 @@
+@import url('https://fonts.googleapis.com/css?family=Nunito:300,400,700');
+body {
+    background-color: #2A324B;
+    font-family: 'Nunito', sans-serif;
+}
+.about{
+    color: #2A324B;
+    font-size: 4em;
+    border-right: 10px solid #2A324B;
+    height: 80%;
+}
+.about_section{
+    background-color: #E1E5EE;
+    height: 400px;
+    width: 100%;
+    top: 650px;
+    position: absolute;
+    left: 0;
+}
+
+.title_name{
+    color: #E1E5EE;
+    font-size: 5em;
+    position: absolute;
+    left: 50%;
+    top: 200px;
+    transform: translate(-50%);
+    text-decoration: underline;;
+}
+.tagline{
+    color: #FFE66D;
+    font-size: 1em;
+    position: absolute;
+    top: 400px;
+    font-weight: 300;
+    left: 50%;
+    transform: translate(-50%);
+}
+.login{
+    background-color: #FFE66D;
+    position: absolute;
+    left: -500px;
+    top: -150px;
+    height: 70vh;
+    width: 100vw;
+    transform: rotate(-45deg);
+    transition: all 0.2s ease;
+}
+.login:hover{
+    width: 102vw;
+    height: 72vh;
+    box-shadow: 10px 10px 10px black;
+    cursor: pointer;
+}
+.register:hover{
+    box-shadow: 10px 10px 10px black;
+    width: 102vw;
+    height: 102vh;
+    cursor: pointer;
+}
+.cover{
+    transform: rotate(-135deg);
+    top: -100px;
+    left: -75vw;
+    height: 150vh;
+    width: 150vw;
+    z-index: 5;
+}
+
+.cover:hover{
+    transform: rotate(-135deg);
+    top: -100px;
+    left: -75vw;
+    height: 150vh;
+    width: 155vw;
+    z-index: 6;
+    box-shadow: none;
+}
+.cover:hover ~ .vol_direction{
+    color: #2A324B;
+}
+.cover_reg:hover ~ .org_direction{
+    color: #2A324B;
+}
+.register{
+    background-color: #F7AF96;
+    position: absolute;
+    right:-550px;
+    top: -325px;
+    height: 100vh;
+    width: 100vw;
+    transform: rotate(45deg);
+    transition: all 0.2s ease;
+}
+.register .corners{
+    transform: rotate(-45deg);
+    top: 70%;
+}
+.cover_reg{
+    top: -200px;
+    right: -75vw;
+    height: 150vh;
+    width: 150vw;
+    z-index: 5;
+}
+.cover_reg:hover{
+    top: -200px;
+    right: -75vw;
+    height: 150vh;
+    width: 155vw;
+    z-index: 5;
+    box-shadow: none;
+}
+.corners{
+    color: #2A324B;
+    position: absolute;
+    top: 60%;
+    transform: rotate(45deg);
+    left: 45%;
+    font-size: 2em;
+    text-decoration: underline;
+}
+
+.register h3{
+    left: 50%;
+}
+.details{
+    width: 32.7vw;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    margin-top: 50px;
+}
+.details h4{
+    width: 60%;
+    text-align: left;
+    margin: auto;
+    padding-top: 50px;
+}
+.hide{
+    display: none;
+}
+
+.log_reg{
+    display: none;
+    width: 40vw;
+    background-color: #E1E5EE;
+    color: #2A324B;
+    position: absolute;
+    top: 80px;
+    left: 50%;
+    transform: translatex(-50%);
+}
+.show_log_reg{
+    display: inline-block;
+    width: 20vw;
+    background-color: white;
+    z-index: 6;
+    text-align: center;
+    font-size: 1.5em;
+    vertical-align: middle;
+    box-shadow: 5px 5px 10px black;
+}
+.org_direction, .vol_direction{
+    color: white;
+    position: absolute;
+    z-index: 7;
+    font-size: 3em;
+    display: none;
+}
+.vol_direction{
+    top: 300px;
+    left: 250px;
+}
+
+.org_direction{
+    top: 200px;
+    left: 700px;
+}
+.show{
+    display: inline-block;
+}
+.takeover{
+    transform: rotate(0deg);
+    background-color: black;
+}

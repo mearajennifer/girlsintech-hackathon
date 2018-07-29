@@ -1,9 +1,9 @@
-{{ extends base.html }}
-{{ block content }}
+{% extends 'base.html' %}
+{% block content %}
 
 <h2>Login</h2>
 
-<form action="/login/organization" methods="POST">
+<form action="/login/organization" method="POST">
 <h3>Email</h3>
   <input type="text" name="email">
 <h3>Password</h3>
@@ -11,4 +11,4 @@
 <input type="submit" name="submit" value="Login">
 </form>
 
-{{ endblock }}
+{% endblock %}
