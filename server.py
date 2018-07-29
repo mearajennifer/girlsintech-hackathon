@@ -114,10 +114,10 @@ def show_org_registration_form():
     category = request.form.get('category')
     description = request.form.get('description')
     website = request.form.get('website')
-    
+
     organization = Organization(name=name, email=email, password=password,
-                                    address=address, category=category,
-                                    description=description, website)
+                                address=address, category=category,
+                                description=description, website=website)
 
     db.session.add(organization)
     db.session.commit()
@@ -160,7 +160,53 @@ def verify_organization_login():
     return redirect('/home')
 
 
+##################### ORGANIZATION ALERT CREATION ######################
+@app.route('/create-alert', methods=['GET'])
+def show_alert_form():
+    """Shows form to create alert for an organization"""
+
+    if session['type'] != 'organization':
+        return redirect('/home')
+    else:
+        return render_template('create-alert.html')
+
+
+@app.route('/create-alert', methods=['POST'])
+def process_alert():
+    """Get data from form and return template for user review."""
+
+    if session['type'] != 'organization':
+        return redirect('/home')
+    else:
+        org_id = session['organization_id']
+        org = Organization.query.filter(Organization.organization_id == org_id).first()
+
+        num_volunteers = request.form.get('num_volunteers')
+        day = request.form.get('day')
+        hours = request.form.get('hours')
+
+        return render_template('/review-alert.html', org=org, num_volunteers=num_volunteers,
+                               day=day, hours=hours)
+        # on this template users review the alert
+        # if they like it, it connects to the twilio '/sms' route below
+        # if not, they are redirected back to the '/create-alert' route
+
+
 ##################### GENERAL PAGES ######################
+@app.route('/home')
+def show_homepage():
+    """ Show user / org details """
+
+    if session['type'] == 'volunteer':
+        # show user details and earned badges
+        pass
+    elif session['type'] == 'organization':
+        # show organization details, any current alerts, link to create an alert
+        pass
+    else:
+        return redirect('/landing')
+
+
 @app.route("/logout")
 def logout():
     """Logs the current user out"""
@@ -172,7 +218,7 @@ def logout():
     return redirect("/")
 
 
-########## TWILIO SMS ROUTES ##########
+#################### TWILIO SMS ROUTES ####################
 @app.route("/sms")
 def sms_volunteer_request():
     """Connects organizations on our app to the Twilio functionality.
@@ -212,7 +258,7 @@ def sms_reply_attending_():
     resp = MessagingResponse()
 
     # Add a message
-    resp.message("Can't wait to see you! Find more info at hackbright.com.")
+    resp.message("Can't wait to see you! Find more info at helper.com.")
 
     return str(resp)
 
