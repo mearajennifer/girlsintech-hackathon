@@ -2,3 +2,5 @@ env/
 *pycache*
 .idea/
 .DS_Store
+secrets.sh
+

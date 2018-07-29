@@ -36,16 +36,12 @@ class Volunteer(db.Model):
         return "<Volunteer name={}, phone={}>".format(self.name, self.phone_number)
 
 
-    def retrieve_organizations_volunteering_for(self):
+    def retrieve_organizations_volunteer_is_in(self):
         organization_ids = OrganizationVolunteer.query.filter_by(volunteer_id=self.volunteer_id)
 
+        organizations = db.session.query(Organization).join(OrganizationVolunteer).filter(Organization.organization_id == OrganizationVolunteer.organization_id).all()
+        return organization
 
-#     user = db.relationship("User",
-#                            backref=db.backref("ratings", order_by=rating_id))
-#
-#     movie = db.relationship("Movie",
-#                             backref=db.backref("ratings", order_by=rating_id))
-#
 
 ##############################################################################
 # Organization definition
@@ -64,9 +60,8 @@ class Organization(db.Model):
     description = db.Column(db.String(256))
     website = db.Column(db.String(64))
     # TODO Implement hours in a non stupid way
-    #
-    # volunteers = db.relationship("OrganizationVolunteer", backref=db.backref("organization_volunteers",
-    #                                                                             order_by=organization_id))
+
+
     category = db.relationship("Category", backref=db.backref("categories", order_by=category_code))
 
     def __repr__(self):
@@ -254,6 +249,8 @@ if __name__ == "__main__":
     category = create_dummy_category()
     organization = create_dummy_organization()
     volunteerList = create_dummy_orgvol(dummies, organization)
+    for volunteer in dummies:
+        print(volunteer.retrieve_organizations_volunteer_is_in())
 
 
     print("Connected to DB.")
