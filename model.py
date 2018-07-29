@@ -114,53 +114,6 @@ class OrganizationVolunteer(db.Model):
                                                                                     self.organization_id)
 
 
-# class Movie(db.Model):
-#     """Movie of ratings website."""
-#
-#     __tablename__ = "movies"
-#
-#     movie_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-#     title = db.Column(db.String(100), nullable=True)
-#     released_at = db.Column(db.DateTime, nullable=True)
-#     imdb_url = db.Column(db.String, nullable=True)
-#
-#     def __repr__(self):
-#         """Provide helpful representation when printed."""
-#
-#         return f"""<Movie movie_id={self.movie_id}
-#                    title={self.title}
-#                    released_at={self.released_at}
-#                    imdb_url={self.imdb_url}>"""
-
-#
-# class Rating(db.Model):
-#     """Rating of ratings website."""
-#
-#     __tablename__ = "ratings"
-#
-#     rating_id = db.Column(db.Integer,
-#                           autoincrement=True,
-#                           primary_key=True)
-#     movie_id = db.Column(db.Integer,
-#                          db.ForeignKey('movies.movie_id'))
-#     user_id = db.Column(db.Integer,
-#                         db.ForeignKey('users.user_id'))
-#     score = db.Column(db.Integer)
-#
-#     user = db.relationship("User",
-#                            backref=db.backref("ratings", order_by=rating_id))
-#
-#     movie = db.relationship("Movie",
-#                             backref=db.backref("ratings", order_by=rating_id))
-#
-#     def __repr__(self):
-#         """Provide helpful representation when printed."""
-#
-#         return f"""<Rating rating_id={self.rating_id}
-#                    movie_id={self.movie_id}
-#                    user_id={self.user_id}
-#                    score={self.score}>"""
-
 ##############################################################################
 # Test functions
 
