@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="main_styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+    </script>
+</head>
+<body>
+    <div class="login">
+        <h3 class=corners>login</h3>
+    </div>
+    <div class="register">
+        <h3 class=corners>register</h3>
+    </div>
+    <div class="log_reg">
+    </div>
+    <h2 class="vol_direction">Volunteer</h2>
+    <h2 class="org_direction">Organization</h2>
+    <h1 class="title_name">Helper</h1>
+    <h2 class="tagline">Connecting volunteers at the 11th hour</h2>
+    <div class="about_section">
+    <div class = "details">
+        <h3 class="about">About</h3>
+    </div>
+    <div class = "details">
+        <h4>Helper is a connection service that sends an alert to all volunteers 
+            in the area and let's them know they have opportunity to be part of your
+            organizations. The volunteers recieve a text about opportunites and are able
+            to respond whether they can attend. The organization then can see volunteers
+            signing up to be part of the experience and know how many to expect.</h4>
+    </div>
+    <div class = "details">
+        <h4>instant connection to volunteers nearby</h4>
+    </div>
+        </div>
+<script type="text/javascript">
+$(document).ready(function(){
+    $(".login").click(function(){
+        $(this).toggleClass('cover', 'ease');
+        $(".register").toggleClass('cover_reg', 'ease');
+        $(".corners").toggleClass('hide');
+        $(".log_reg").toggleClass('show_log_reg');
+        $(".log_reg").append("<p>login as:</p>");
+        $(".vol_direction").toggleClass("show");
+        $(".org_direction").toggleClass("show");
+    });
+    });
+    $(".cover").click(function(){
+        $(this).addClass('takeover', 'ease');
+        $(this).removeClass('login');
+
+    });
+$(document).ready(function(){
+    $(".register").click(function(){
+        $(".login").toggleClass('cover', 'ease');
+        $(this).toggleClass('cover_reg', 'ease');
+        $(".corners").toggleClass('hide');
+        $(".log_reg").toggleClass('show_log_reg');
+        $(".log_reg").append("<p>login as:</p>");
+    });
+    });
+</script>
+</body>
+</html>
