@@ -162,7 +162,7 @@ class OrganizationVolunteer(db.Model):
 #                    score={self.score}>"""
 
 ##############################################################################
-# Helper functions
+# Test functions
 
 def create_dummy_volunteers():
     """Create dummy volunteers for testing purposes"""
@@ -193,7 +193,7 @@ def create_dummy_category():
 
 
 
-def create_dummy_organizations():
+def create_dummy_organization():
     """"""
     hackoak = Organization(name="HackOak",
                            email="hackoak@hackoak.com",
@@ -233,6 +233,9 @@ def create_dummy_orgvol(volunteers, organization):
     return organization_volunteers
 
 
+##############################################################################
+# Test functions
+
 def connect_to_db(app):
     """Connect the database to our Flask app."""
 
@@ -265,12 +268,14 @@ if __name__ == "__main__":
     db.create_all()
     dummies = create_dummy_volunteers()
     category = create_dummy_category()
-    organizations = create_dummy_organizations()
-    volunteerList = create_dummy_orgvol(dummies, organizations)
+    organization = create_dummy_organization()
+    volunteerList = create_dummy_orgvol(dummies, organization)
     for volunteer in dummies:
         print(volunteer.retrieve_organizations_volunteer_is_in())
-    for organization in organizations:
-        print(organization.retrieve_volunteers())
+
+    print(organization.retrieve_volunteers())
+    bright = Organization.query.get(2).retrieve_volunteers()
+    print(bright)
 
 
     print("Connected to DB.")
