@@ -178,17 +178,26 @@ def process_alert():
     if session['type'] != 'organization':
         return redirect('/home')
     else:
+        # find organization and grab all people interested in it
         org_id = session['organization_id']
         org = Organization.query.filter(Organization.organization_id == org_id).first()
+        org_vols = OrganizationVolunteer.query.filter(OrganizationVolunteer.organization_id == org_id).options(db.joinedload('volunteers')).all()
+
+        phone_numbers = []
+
+        for item in org_vols:
+            vol_phone_numbers.append(item.volunteers.phone_number)
 
         num_volunteers = request.form.get('num_volunteers')
         day = request.form.get('day')
         hours = request.form.get('hours')
 
-        return render_template('/review-alert.html', org=org, num_volunteers=num_volunteers,
-                               day=day, hours=hours)
+        message = f"Helper request: {org.name} needs {num_volunteers} {day} at {hours}. Can you help? Reply YES."
+
+        return render_template('/review-alert.html', org=org, message=message, phone_numbers)
         # on this template users review the alert
         # if they like it, it connects to the twilio '/sms' route below
+        # need to figure out how to pass in the phone numbers on that route...
         # if not, they are redirected back to the '/create-alert' route
 
 
@@ -221,32 +230,25 @@ def logout():
 #################### TWILIO SMS ROUTES ####################
 @app.route("/sms")
 def sms_volunteer_request():
-    """Connects organizations on our app to the Twilio functionality.
+    """Connects organizations on our app to the Twilio functionality."""
 
-    Org message is passed in (request is created by info that orgs supply
-    on webpage, and is put together as a string before this function is called.)
-    Phone numbers of interested volunteers are passed in as a list from
-    the database.
-    """
+    if session['type'] != 'organization':
+        return redirect('/home')
+    else:
+        numbers = request.form.get('numbers')
+        message = request.form.get('message')
 
-    # org_id = session['organization_id']
-    # org = Organization.query.filter(Organization.organization_id == org_id).first()
+        for num in numbers:
+            call = client.messages.create(
+                to=num,
+                from_='+15109441564',
+                body=message,
+            )
 
-    # sample data to call functions
-    message = 'Hackbright needs 30 volunteers today from 2pm to 7pm. Can you make it? Reply YES.'
-    numbers = ["+12163921002"]
+        print(call.sid)
 
-    for num in numbers:
-        call = client.messages.create(
-            to=num,
-            from_='+15109441564',
-            body=message,
-        )
-
-    print(call.sid)
-
-    flash("Your request for volunteers was sent!")
-    return redirect("/")
+        flash("Your request for volunteers was sent!")
+        return redirect("/home")
 
 
 @app.route("/sms", methods=['GET', 'POST'])
@@ -264,14 +266,13 @@ def sms_reply_attending_():
 
 
 if __name__ == '__main__':
-    # We have to set debug=True here, since it has to be True at the
-    # point that we invoke the DebugToolbarExtension
+    # Activate debug mode
     app.debug = True
 
     # make sure templates, etc. are not cached in debug mode
-    # app.jinja_env.auto_reload = app.debug
+    app.jinja_env.auto_reload = app.debug
 
-    # connect_to_db(app)
+    connect_to_db(app)
 
     # Use the DebugToolbar
     DebugToolbarExtension(app)
